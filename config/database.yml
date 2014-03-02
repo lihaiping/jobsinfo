@@ -17,9 +17,9 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: jobs_info_development
+  database: jobs_info_dev
   pool: 5
-  username: jobs_info
+  username: penny
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -48,13 +48,15 @@ test:
   encoding: unicode
   database: jobs_info_test
   pool: 5
-  username: jobs_info
+  username: penny
   password:
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: jobs_info_production
+  database: d6i5se37nk8a4t
   pool: 5
-  username: jobs_info
-  password:
+  host: ec2-54-197-241-94.compute-1.amazonaws.com
+  port: 5432
+  username: rkcrfyimftcpll
+  password: dTF1xul5D_Z_3IKJHZ1P2Rdq-t
