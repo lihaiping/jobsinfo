@@ -1,6 +1,6 @@
 class WeixinsController < ApplicationController
 	skip_before_filter :verify_authenticity_token
-	# before_filter :check_weixin_legality
+	before_filter :check_weixin_legality
 	
 	def show
 		render :text => params[:echostr]
@@ -8,8 +8,8 @@ class WeixinsController < ApplicationController
 
 	def create
 		if params[:xml][:MsgType] == "text"
-      		render "echo", :formats => :xml
-    	end
+      			render "echo", :formats => :xml
+    		end
 	end
 
 
