@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # JavaScript runtime
 gem 'therubyracer'
 
+# XML parser
+gem 'actionpack-xml_parser'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
