@@ -27,15 +27,11 @@ JobsInfo::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.server_host = ""
+  config.app_id = "wx074ca22d91b63108"
 
-  config.weixin_app_id = "wx074ca22d91b63108"
+  config.app_secret = "89e17e1138fa04e2dee1e35af6ec7355"
 
-  config.weixin_app_secret = "89e17e1138fa04e2dee1e35af6ec7355"
+  config.token = "h2tng64uied3q11awk"
 
-  config.weixin_token = "123123123"
-
-  config.weixin_send_path = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="
-
-  config.subscribe_content =  "您好，欢迎关注 Jobs Info！"
+  config.subscribe_reply =  "您好，欢迎关注 Jobs Info！"
 end
