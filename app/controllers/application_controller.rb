@@ -15,7 +15,6 @@ class ApplicationController < ActionController::Base
 	tmpStr = [ token, timestamp, nonce ].sort.join
   	signature = params[:signature]
     	render :text => "Forbidden", :status => 403 unless signature == Digest::SHA1.hexdigest(tmpStr)	
-    	end
   end
 
 end
