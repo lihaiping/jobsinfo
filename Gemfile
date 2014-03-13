@@ -19,7 +19,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -47,14 +47,13 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-group :development, :test do
-	gem 'pry'
-end
+gem 'pry', group: [:development, :test]
 
-# JavaScript runtime
-gem 'therubyracer'
+gem 'rails_12factor', group: :production
 
 # Rails admin
 gem 'rails_admin'
 
 gem "devise"
+
+ruby '2.0.0'

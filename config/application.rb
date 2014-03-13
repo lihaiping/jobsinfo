@@ -21,6 +21,5 @@ module JobsInfo
     # config.i18n.default_locale = :de
 
     config.middleware.insert_after ActionDispatch::ParamsParser, ActionDispatch::XmlParamsParser
-    config.assets.precompile += %w(rails_admin/rails_admin.css rails_admin/rails_admin.js)
   end
 end
