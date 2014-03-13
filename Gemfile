@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # JavaScript runtime
 gem 'therubyracer'
 
+# Rails admin
+gem 'rails_admin'
+
 # XML parser
 gem 'actionpack-xml_parser'
 
@@ -51,3 +54,6 @@ end
 # gem 'debugger', group: [:development, :test]
 
 ruby "2.0.0"
+
+
+gem "devise"
