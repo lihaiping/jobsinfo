@@ -30,7 +30,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = ['Guide', 'Industry', 'Information', 'Job', 'Type', 'User']
 
   # Include specific models (exclude the others):
-  # config.included_models = ['Guide', 'Industry', 'Information', 'Job', 'Type', 'User']
+  config.included_models = ['Admin', 'Guide', 'Industry', 'Information', 'Job', 'Type', 'User']
 
   # Label methods for model instances:
   # config.label_methods << :description # Default is [:name, :title]
@@ -53,6 +53,11 @@ RailsAdmin.config do |config|
 
 
   ###  Guide  ###
+  config.model Guide do
+    edit do
+      configure :content, :ck_editor
+    end
+  end
 
   # config.model 'Guide' do
 
@@ -148,6 +153,12 @@ RailsAdmin.config do |config|
 
 
   ###  Information  ###
+
+  config.model Information do
+    edit do
+      configure :requirement, :ck_editor
+    end
+  end
 
   # config.model 'Information' do
 

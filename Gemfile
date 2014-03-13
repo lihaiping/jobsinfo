@@ -49,11 +49,18 @@ end
 
 gem 'pry', group: [:development, :test]
 
+# Serve assets on heroku server
 gem 'rails_12factor', group: :production
 
 # Rails admin
 gem 'rails_admin'
 
 gem "devise"
+
+gem "ckeditor"
+
+# Upload
+gem 'carrierwave'
+gem "mini_magick"
 
 ruby '2.0.0'
