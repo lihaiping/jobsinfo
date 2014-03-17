@@ -15,5 +15,5 @@ class Weixin::ApplicationController < ApplicationController
 		isValid = signature == Digest::SHA1.hexdigest(tmpStr)
 		render :text => "Forbidden", :status => 403 unless isValid
 	end
-	
+
 end

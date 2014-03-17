@@ -57,6 +57,8 @@ gem 'rails_admin'
 
 gem "devise"
 
+gem 'grape'
+
 gem "ckeditor"
 
 # Upload

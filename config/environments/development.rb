@@ -27,11 +27,15 @@ JobsInfo::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Weixin appID
   config.app_id = "wx074ca22d91b63108"
 
+  # Weixin appsecret
   config.app_secret = "89e17e1138fa04e2dee1e35af6ec7355"
 
+  # Weixin api configuration token
   config.token = "h2tng64uied3q11awk"
 
+  # Text for subscription
   config.subscribe_reply =  "您好，欢迎关注 Jobs Info！"
 end
