@@ -57,12 +57,14 @@ gem 'rails_admin'
 
 gem "devise"
 
-gem 'grape'
-
 gem "ckeditor"
 
 # Upload
 gem 'carrierwave'
 gem "mini_magick"
+
+gem 'grape'
+
+gem 'rest-client'
 
 ruby '2.0.0'
