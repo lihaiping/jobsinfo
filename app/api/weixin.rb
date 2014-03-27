@@ -128,6 +128,7 @@ module Weixin
 			# 	requires :signature, type: String, desc: "Signature."
 			# end
 			before do
+				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
 				token = JobsInfo::Application.config.token
 				authenticate!(token, params[:timestamp], params[:nonce], params[:signature])
 			end
@@ -140,11 +141,15 @@ module Weixin
 			post do
 				# Add xml content into params
 				params[:xml] = Hash.from_xml(request.body.read)["xml"]
+				@logger.info "\n weixin xml: #{params[:xml]}\n"
 				begin
 					router = mount_route
 					send routers[router]
-				rescue Exception => e
+				rescue Exception => exception
 					# TODO
+					message = "\nrescue exception:\n#{exception.class} (#{exception.message}):\n"
+					puts message
+					@logger.fatal("#{message}\n\n")
 				end
 
 			end

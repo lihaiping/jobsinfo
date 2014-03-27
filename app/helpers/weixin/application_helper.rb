@@ -1,2 +1,0 @@
-module Weixin::ApplicationHelper
-end
