@@ -22,12 +22,20 @@ module JobsInfo
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # For weixin io handler
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
+    # For Ckeditor
     config.middleware.insert_after ActionDispatch::ParamsParser, ActionDispatch::XmlParamsParser
     config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
     config.assets.precompile += Ckeditor.assets
     config.assets.precompile += %w(ckeditor/*)
+
+    # # For weixin message
+    # config.autoload_paths += %W(#{config.root}/lib)
+
+    # Autoload lib/ folder including all subdirectories
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
   end
 end

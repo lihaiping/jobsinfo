@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 
 # XML parser
 gem 'actionpack-xml_parser'
@@ -67,7 +68,8 @@ gem 'grape'
 
 gem 'rest-client'
 
-# To xml
-gem 'activesupport'
+# For xml parser
+gem 'roxml'
+gem 'multi_xml'
 
 ruby '2.0.0'

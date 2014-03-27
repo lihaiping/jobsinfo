@@ -3,7 +3,7 @@ JobsInfo::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
   devise_for :admins
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-  mount Weixin::Api => '/'
+  mount Handler::Api => '/'
 
   namespace :mobile, path: 'm' do
     resources :information, only: [:index, :create]
