@@ -45,14 +45,14 @@ module Api
 
         			return :reply_? if ["?", "？"].include?(msg_content)
         			return ("reply_" + msg_content).to_sym if ["1", "2", "3", "4" , "5", "6"].include?(msg_content)
-			        return ("click_" + msg_type.downcase).to_sym if ["subscribe", "unsubscribe"].include?(msg_type)
+			        return ("click_" + event.downcase).to_sym if ["subscribe", "unsubscribe"].include?(event)
 				return ("click_" + event_key.downcase).to_sym if ["INTERNSHIP_RECRUIT", "CAMPUS_RECRUIT", 
 					"SOCIAL_RECRUIT", "AUDITION_GUIDE", "RESUME_GUIDE", "JOBS_SUBSCRIPTION", "HELP"].include?(event_key)
 			end
 
 			def subscribe
 				content = JobsInfo::Application.config.subscribe + JobsInfo::Application.config.help
-				Weixin.text_msg(params[:xml][:ToUserName], params[:xml][:ToUserName], content)
+				Weixin.text_msg(params[:xml][:ToUserName], params[:xml][:FromUserName], content)
 			end
 
 			def unsubscribe
@@ -61,7 +61,7 @@ module Api
 
 			def help
 				content = JobsInfo::Application.config.help
-				Weixin.text_msg(params[:xml][:ToUserName], params[:xml][:ToUserName], content)
+				Weixin.text_msg(params[:xml][:ToUserName], params[:xml][:FromUserName], content)
 			end
 
 			def internship_recruit
