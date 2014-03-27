@@ -57,14 +57,18 @@ gem 'rails_admin'
 
 gem "devise"
 
-gem "ckeditor"
+gem 'ckeditor'
 
 # Upload
 gem 'carrierwave'
-gem "mini_magick"
+gem 'mini_magick'
 
 gem 'grape'
 
 gem 'rest-client'
+
+# Convert json to xml
+gem 'activesupport'
+gem 'json'
 
 ruby '2.0.0'

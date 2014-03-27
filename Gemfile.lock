@@ -211,6 +211,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-xml_parser
+  activesupport
   carrierwave
   ckeditor
   coffee-rails (~> 4.0.0)
@@ -218,6 +219,7 @@ DEPENDENCIES
   grape
   jbuilder (~> 1.2)
   jquery-rails
+  json
   mini_magick
   pg
   pry

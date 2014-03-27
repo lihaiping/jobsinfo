@@ -1,8 +1,12 @@
 require 'grape'
+require 'active_support'
+require 'json'
 
 module Weixin
 	class Api < Grape::API
 		format :txt
+
+		@@cdata = '<![CDATA[TXT]]>'
 
 		helpers do
 
@@ -13,31 +17,46 @@ module Weixin
 				error!('Unauthorized', 401) unless	signature == Digest::SHA1.hexdigest(tmpStr)	
 			end
 
+			def reply_base
+				{
+					:ToUserName => @@cdata.gsub('TXT', params[:xml][:ToUserName]),
+					:FromUserName => @@cdata.gsub('TXT', params[:xml][:FromUserName]),
+					:CreateTime => Time.now.to_i
+				}
+			end
+
+			def reply_text(content)
+				{
+					:MsgType => @@cdata.gsub('TXT', 'text'),
+					:Content => @@cdata.gsub('TXT', content)
+				}
+			end
+
 			def routers
 				{
-					click_subscribe: :subscribe,
-          				click_unsubscribe: :unsubscribe,
+					:click_subscribe => 'subscribe',
+          				:click_unsubscribe => 'unsubscribe',
 
-					reply_?: :help,
-					click_help: :help,
+					:reply_? => 'help',
+					:click_help => 'help',
 
-					reply_1: :internship_recruit,
-					click_internship_recruit: :internship_recruit,
+					:reply_1 => 'internship_recruit',
+					:click_internship_recruit => 'internship_recruit',
 
-					reply_2: :campus_recruit,
-					click_campus_recruit: :campus_recruit,
+					:reply_2 => 'campus_recruit',
+					:click_campus_recruit => 'campus_recruit',
 
-					reply_3: :social_recruit,
-					click_social_recruit: :social_recruit,
+					:reply_3 => 'social_recruit',
+					:click_social_recruit => 'social_recruit',
 
-					reply_4: :audition_guide,
-					click_audition_guide: :audition_guide,
+					:reply_4 => 'audition_guide',
+					:click_audition_guide => 'audition_guide',
 
-					reply_5: :resume_guide,
-					click_resume_guide: :resume_guide,
+					:reply_5 => 'resume_guide',
+					:click_resume_guide => 'resume_guide',
 
-					reply_6: :jobs_subscription,
-					click_jobs_subscription: :jobs_subscription
+					:reply_6 => 'jobs_subscription',
+					:click_jobs_subscription => 'jobs_subscription'
 				}
 			end
 
@@ -55,7 +74,9 @@ module Weixin
 			end
 
 			def subscribe
-				JobsInfo::Application.config.subscribe_reply
+				content = JobsInfo::Application.config.subscribe + JobsInfo::Application.config.help
+				reply = reply_base.merge(reply_text(content))
+				JSON.parse(reply.to_json).to_xml(:root => 'root')
 			end
 
 			def unsubscribe
@@ -63,7 +84,9 @@ module Weixin
 			end
 
 			def help
-				
+				content = JobsInfo::Application.config.help
+				reply = reply_base.merge(reply_text(content))
+				JSON.parse(reply.to_json).to_xml(:root => 'root')
 			end
 
 			def internship_recruit
@@ -90,6 +113,10 @@ module Weixin
 				
 			end
 
+			def default
+				
+			end
+
 		end
 
 		namespace :weixin_io do
@@ -111,6 +138,8 @@ module Weixin
 			end
 
 			post do
+				# Add xml content into params
+				params[:xml] = Hash.from_xml(request.body.read)["xml"]
 				begin
 					router = mount_route
 					send routers[router]
