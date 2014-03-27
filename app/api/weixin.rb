@@ -122,7 +122,7 @@ module Weixin
 			before do
 				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
 				token = JobsInfo::Application.config.token
-				authenticate!(token, params[:timestamp], params[:nonce], params[:signature])
+				# authenticate!(token, params[:timestamp], params[:nonce], params[:signature])
 			end
 
 			after do
