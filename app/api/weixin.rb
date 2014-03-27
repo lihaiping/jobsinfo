@@ -1,12 +1,11 @@
 require 'grape'
-require 'active_support'
-require 'json'
+require "builder"
 
 module Weixin
 	class Api < Grape::API
 		format :txt
 
-		@@cdata = '<![CDATA[TXT]]>'
+		@@cdata = '<![CDATA[TXT]]>>'
 
 		helpers do
 
@@ -17,18 +16,13 @@ module Weixin
 				error!('Unauthorized', 401) unless	signature == Digest::SHA1.hexdigest(tmpStr)	
 			end
 
-			def reply_base
-				{
-					:ToUserName => @@cdata.gsub('TXT', params[:xml][:ToUserName]),
-					:FromUserName => @@cdata.gsub('TXT', params[:xml][:FromUserName]),
-					:CreateTime => Time.now.to_i
-				}
-			end
-
 			def reply_text(content)
-				{
-					:MsgType => @@cdata.gsub('TXT', 'text'),
-					:Content => @@cdata.gsub('TXT', content)
+				@xml.xml {
+					@xml.ToUserName { @xml.cdata!(params[:xml][:ToUserName]) }
+					@xml.FromUserName { @xml.cdata!(params[:xml][:FromUserName]) }
+					@xml.CreateTime(Time.now.to_i)
+					@xml.MsgType { @xml.cdata!('text') }
+					@xml.Content { @xml.cdata!(content) }
 				}
 			end
 
@@ -75,8 +69,7 @@ module Weixin
 
 			def subscribe
 				content = JobsInfo::Application.config.subscribe + JobsInfo::Application.config.help
-				reply = reply_base.merge(reply_text(content))
-				JSON.parse(reply.to_json).to_xml(:root => 'root')
+				reply_text(content)
 			end
 
 			def unsubscribe
@@ -85,8 +78,7 @@ module Weixin
 
 			def help
 				content = JobsInfo::Application.config.help
-				reply = reply_base.merge(reply_text(content))
-				JSON.parse(reply.to_json).to_xml(:root => 'root')
+				reply_text(content)
 			end
 
 			def internship_recruit
@@ -130,7 +122,11 @@ module Weixin
 			before do
 				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
 				token = JobsInfo::Application.config.token
-				authenticate!(token, params[:timestamp], params[:nonce], params[:signature])
+				# authenticate!(token, params[:timestamp], params[:nonce], params[:signature])
+			end
+
+			after do
+				status(200)
 			end
 
 			desc 'Return the echostr when authenticated.'
@@ -141,13 +137,15 @@ module Weixin
 			post do
 				# Add xml content into params
 				params[:xml] = Hash.from_xml(request.body.read)["xml"]
-				@logger.info "\n weixin xml: #{params[:xml]}\n"
+				puts params[:xml]
+				@logger.info "\nWeixin xml: #{params[:xml]}\n"
+				@xml = Builder::XmlMarkup.new(:indent=>2)
 				begin
 					router = mount_route
 					send routers[router]
 				rescue Exception => exception
 					# TODO
-					message = "\nrescue exception:\n#{exception.class} (#{exception.message}):\n"
+					message = "\nRescue exception:\n#{exception.class} (#{exception.message}):\n"
 					puts message
 					@logger.fatal("#{message}\n\n")
 				end

@@ -219,7 +219,6 @@ DEPENDENCIES
   grape
   jbuilder (~> 1.2)
   jquery-rails
-  json
   mini_magick
   pg
   pry

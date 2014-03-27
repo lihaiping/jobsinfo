@@ -67,8 +67,7 @@ gem 'grape'
 
 gem 'rest-client'
 
-# Convert json to xml
+# To xml
 gem 'activesupport'
-gem 'json'
 
 ruby '2.0.0'
