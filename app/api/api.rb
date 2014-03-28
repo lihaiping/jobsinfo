@@ -52,7 +52,7 @@ module Api
 
 			def subscribe
 				content = JobsInfo::Application.config.subscribe + JobsInfo::Application.config.help
-				Weixin.text_msg(params[:xml][:ToUserName], params[:xml][:FromUserName], content)
+				Weixin.text_msg(params[:xml][:FromUserName], params[:xml][:ToUserName], content)
 			end
 
 			def unsubscribe
@@ -61,7 +61,7 @@ module Api
 
 			def help
 				content = JobsInfo::Application.config.help
-				Weixin.text_msg(params[:xml][:ToUserName], params[:xml][:FromUserName], content)
+				Weixin.text_msg(params[:xml][:FromUserName], params[:xml][:ToUserName], content)
 			end
 
 			def internship_recruit
