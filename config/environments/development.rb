@@ -37,9 +37,25 @@ JobsInfo::Application.configure do
   config.token = "h2tng64uied3q11awk"
 
   # Text for subscription
-  config.subscribe =  "您好，欢迎关注 Jobs Info！\n"
+  config.subscribe =  "您好, 欢迎关注 Jobs Info.\n"
 
   # Text for help
-  config.help = "回复对应数字符号, 或点击菜单获取消息.\n目前支持的功能如下:\n\n--- 招聘资讯 ---\n  1. 实习招聘\n  2. 校园招聘\n  3. 社会招聘\n\n--- 求职助手 ---\n  4. 面试宝典\n  5. 简历模版\n\n----- 更多 -----\n  6. 订阅职位\n  ?. 使用帮助\n"
+  config.help = "回复对应数字符号, 或点击菜单获取消息.\n目前支持的功能如下:\n\n--- 招聘资讯 ---\n  1. 实习招聘\n  2. 校园招聘\n  3. 社会招聘\n\n--- 求职助手 ---\n  4. 面试宝典\n  5. 简历模板\n\n----- 更多 -----\n  6. 订阅职位\n  ?. 使用帮助\n"
+
+  # Text for unknow message type
+  config.unknow = "未知消息类型."
+
+  # Keys for function
+  config.function_key = ["1", "2", "3", "4" , "5", "6", "?"]
+
+  # Keys for menu
+  config.menu_key = [  
+      "INTERNSHIP_RECRUIT",
+      "CAMPUS_RECRUIT",
+      "SOCIAL_RECRUIT",
+      "AUDITION_GUIDE",
+      "RESUME_GUIDE",
+      "HELP"
+    ]
 
 end

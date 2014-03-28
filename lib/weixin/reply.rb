@@ -15,7 +15,7 @@ module Weixin
 		end
 	end
 
-	def text_msg(to, from, content)
+	def text_msg(from, to, content)
 		msg = TextReplyMessage.new
 		msg.ToUserName = to
 		msg.FromUserName = from
@@ -23,7 +23,7 @@ module Weixin
 		msg.to_xml
 	end
 
-	def music_msg(to, from, music)
+	def music_msg(from, to, music)
 		msg = MusicReplyMessage.new
 		msg.ToUserName = to
 		msg.FromUserName = from
@@ -31,7 +31,7 @@ module Weixin
 		msg.to_xml
 	end
 
-	def news_msg(to, from, items)
+	def news_msg(from, to, items)
 		msg = NewsReplyMessage.new
 		msg.ToUserName = to
 		msg.FromUserName = from

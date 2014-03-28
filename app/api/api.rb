@@ -9,87 +9,117 @@ module Api
 
 		helpers do
 
+			def get_msg
+				{
+					:to_user => params[:xml][:ToUserName],
+					:from_user => params[:xml][:FromUserName],
+					:msg_type => params[:xml][:MsgType],
+					:content => params[:xml][:Content],
+					:event => params[:xml][:Event],
+					:event_key => params[:xml][:EventKey]
+				}
+			end
+
 			def routers
 				{
 					:click_subscribe => 'subscribe',
           				:click_unsubscribe => 'unsubscribe',
-
 					:reply_? => 'help',
 					:click_help => 'help',
-
 					:reply_1 => 'internship_recruit',
 					:click_internship_recruit => 'internship_recruit',
-
 					:reply_2 => 'campus_recruit',
 					:click_campus_recruit => 'campus_recruit',
-
 					:reply_3 => 'social_recruit',
 					:click_social_recruit => 'social_recruit',
-
 					:reply_4 => 'audition_guide',
 					:click_audition_guide => 'audition_guide',
-
 					:reply_5 => 'resume_guide',
 					:click_resume_guide => 'resume_guide',
-
 					:reply_6 => 'jobs_subscription',
-					:click_jobs_subscription => 'jobs_subscription'
+					:click_jobs_subscription => 'jobs_subscription',
+					:default => 'default',
+					:unknow => 'unknow'
 				}
 			end
 
 			def mount_route
-				msg_type = params[:xml][:MsgType]
-				msg_content = params[:xml][:Content]
-				event = params[:xml][:Event]
-				event_key = params[:xml][:EventKey]
-
-        			return :reply_? if ["?", "？"].include?(msg_content)
-        			return ("reply_" + msg_content).to_sym if ["1", "2", "3", "4" , "5", "6"].include?(msg_content)
-			        return ("click_" + event.downcase).to_sym if ["subscribe", "unsubscribe"].include?(event)
-				return ("click_" + event_key.downcase).to_sym if ["INTERNSHIP_RECRUIT", "CAMPUS_RECRUIT", 
-					"SOCIAL_RECRUIT", "AUDITION_GUIDE", "RESUME_GUIDE", "JOBS_SUBSCRIPTION", "HELP"].include?(event_key)
+				if 'text' == @msg[:msg_type]
+					# Common text message
+					if @config.function_key.include?(@msg[:content])
+						('reply_' + @msg[:content]).to_sym 
+					else
+						:reply_?
+					end
+				elsif 'event' == @msg[:msg_type]
+					# Event
+					@msg[:event] = @msg[:event].downcase
+					case @msg[:event]
+					when 'subscribe'
+						:click_subscribe
+					when 'unsubscribe'
+						:click_unsubscribe
+					when 'click'
+						# Click menu
+						if @config.menu_key.include?(@msg[:event_key])
+							('click_' + @msg[:event_key].downcase).to_sym
+						else
+							# Unknow menu key
+							:unknow
+						end
+					else
+						# Other events such as scanning code, location report and view etc
+						:default
+					end
+				else
+					# Other common message such as image, voice, video, link and location
+					:click_help
+				end
 			end
 
 			def subscribe
-				content = JobsInfo::Application.config.subscribe + JobsInfo::Application.config.help
-				Weixin.text_msg(params[:xml][:FromUserName], params[:xml][:ToUserName], content)
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
 			end
 
 			def unsubscribe
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'unsubscribe')
 			end
 
 			def help
-				content = JobsInfo::Application.config.help
-				Weixin.text_msg(params[:xml][:FromUserName], params[:xml][:ToUserName], content)
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.help)
 			end
 
 			def internship_recruit
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'internship_recruit')
 			end
 
 			def campus_recruit
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'campus_recruit')
 			end
 
 			def social_recruit
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'social_recruit')
 			end
 
 			def audition_guide
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'audition_guide')
 			end
 
 			def resume_guide
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'resume_guide')
 			end
 
 			def jobs_subscription
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'jobs_subscription')
 			end
 
+			# Do nothing
 			def default
-				
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'default')
+			end
+
+			def unknow
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.unknow)
 			end
 
 		end
@@ -104,8 +134,8 @@ module Api
 			# end
 			before do
 				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
-				token = JobsInfo::Application.config.token
-				error!('Unauthorized', 401) unless Weixin.authenticated?(token, params[:timestamp], params[:nonce], params[:signature])
+				@config = JobsInfo::Application.config
+				# error!('Unauthorized', 401) unless Weixin.authenticated?(@config.token, params[:timestamp], params[:nonce], params[:signature])
 			end
 
 			after do
@@ -120,10 +150,11 @@ module Api
 			post do
 				# Add xml content into params
 				params[:xml] = Hash.from_xml(request.body.read)["xml"]
-				message = "\nWeixin xml: #{params[:xml]}\n"
+				message = "\nWeixin params xml:\n#{params[:xml]}\n"
 				puts message
 				@logger.info("#{message}\n")
 				begin
+					@msg = get_msg
 					router = mount_route
 					send routers[router]
 				rescue Exception => exception
