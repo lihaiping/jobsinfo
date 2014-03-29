@@ -94,8 +94,8 @@ JobsInfo::Application.configure do
   config.help = "回复对应数字符号, 或点击菜单获取消息.\n目前支持的功能如下:\n\n--- 招聘资讯 ---\n  1. 实习招聘\n  2. 校园招聘\n  3. 社会招聘\n\n--- 求职助手 ---\n  4. 面试宝典\n  5. 简历模板\n\n----- 更多 -----\n  6. 订阅职位\n  ?. 使用帮助\n"
 
   # Text for jobs subscription
-  config.jobs_subscription = "点此设置订阅的职位"
-  
+  config.jobs_subscription = "订阅职位用于筛选出您关注职位的招聘资讯.\n"
+
   # Text for unknow message type
   config.unknow = "未知消息类型."
 
