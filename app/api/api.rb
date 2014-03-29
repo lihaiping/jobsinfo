@@ -147,7 +147,7 @@ module Api
 			end
 
 			def jobs_subscription
-				content = '<a href=\"www.google.com\">' + @config.jobs_subscription + '</a>'
+				content = '<a href="www.google.com">' + @config.jobs_subscription + '</a>'
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], content)
 			end
 
