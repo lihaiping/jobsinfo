@@ -103,7 +103,7 @@ module Api
 					title = record.company + "招聘" + record.job.name
 					items << Weixin.item(title, '', record.image.url, '')
 				end
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], items)
+				Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
 			end
 
 			def social_recruit
