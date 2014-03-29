@@ -91,23 +91,51 @@ module Api
 			end
 
 			def internship_recruit
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'internship_recruit')
+				# TODO add subscription filter
+				type = Type.find_by(keyword: @config.function[:internship_recruit])
+				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				if 0< records.count
+					items = []
+					records.each do |record|
+						title = record.company + "招聘" + record.job.name + "【实习】"
+						items << Weixin.item(title, '', record.image.url, record.link)
+					end
+					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
+				else
+					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.no_records)
+				end
 			end
 
 			def campus_recruit
 				# TODO add subscription filter
 				type = Type.find_by(keyword: @config.function[:campus_recruit])
 				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
-				items = []
-				records.each do |record|
-					title = record.company + "招聘" + record.job.name
-					items << Weixin.item(title, '', record.image.url, '')
+				if 0< records.count
+					items = []
+					records.each do |record|
+						title = record.company + "招聘" + record.job.name
+						items << Weixin.item(title, '', record.image.url, record.link)
+					end
+					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
+				else
+					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.no_records)
 				end
-				Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
 			end
 
 			def social_recruit
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'social_recruit')
+				# TODO add subscription filter
+				type = Type.find_by(keyword: @config.function[:social_recruit])
+				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				if 0< records.count
+					items = []
+					records.each do |record|
+						title = record.company + "招聘" + record.job.name
+						items << Weixin.item(title, '', record.image.url, record.link)
+					end
+					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
+				else
+					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.no_records)
+				end
 			end
 
 			def audition_guide
@@ -124,7 +152,7 @@ module Api
 
 			# Do nothing
 			def default
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'default')
+				
 			end
 
 			def unknow

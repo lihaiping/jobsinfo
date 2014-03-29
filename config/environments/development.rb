@@ -45,6 +45,9 @@ JobsInfo::Application.configure do
   # Text for unknow message type
   config.unknow = "未知消息类型."
 
+  # Text for no records
+  config.no_records= "未找到符合条件的资讯信息."
+
   # Hash for function
   config.function = {
       :internship_recruit => "1",
