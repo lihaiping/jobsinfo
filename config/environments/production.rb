@@ -95,17 +95,16 @@ JobsInfo::Application.configure do
 
   # Text for unknow message type
   config.unknow = "未知消息类型."
-  # Keys for function
-  config.function_key = ["1", "2", "3", "4" , "5", "6", "?"]
 
-  # Keys for menu
-  config.menu_key = [  
-      "INTERNSHIP_RECRUIT",
-      "CAMPUS_RECRUIT",
-      "SOCIAL_RECRUIT",
-      "AUDITION_GUIDE",
-      "RESUME_GUIDE",
-      "HELP"
-    ]
+  # Hash for function
+  config.function = {
+      :internship_recruit => "1",
+      :campus_recruit => "2",
+      :social_recruit => "3",
+      :audition_guide => "4",
+      :resume_guide => "5",
+      :jobs_subscription => "6",
+      :help => "?"
+    }
 
 end

@@ -46,7 +46,7 @@ module Api
 			def mount_route
 				if 'text' == @msg[:msg_type]
 					# Common text message
-					if @config.function_key.include?(@msg[:content])
+					if @config.function.has_value?(@msg[:content] )
 						('reply_' + @msg[:content]).to_sym 
 					else
 						:reply_?
@@ -61,8 +61,9 @@ module Api
 						:click_unsubscribe
 					when 'click'
 						# Click menu
-						if @config.menu_key.include?(@msg[:event_key])
-							('click_' + @msg[:event_key].downcase).to_sym
+						@msg[:event_key] = @msg[:event_key].downcase
+						if @config.function.has_key?(@msg[:event_key]..to_sym)
+							('click_' + @msg[:event_key]).to_sym
 						else
 							# Unknow menu key
 							:unknow
@@ -94,7 +95,15 @@ module Api
 			end
 
 			def campus_recruit
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'campus_recruit')
+				# TODO add subscription filter
+				type = Type.find_by(keyword: @config.function[:campus_recruit])
+				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				items = []
+				records.each do |record|
+					title = record.company + "招聘" + record.job.name
+					items << Weixin.item(title, '', record.image.url, '')
+				end
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], items)
 			end
 
 			def social_recruit
