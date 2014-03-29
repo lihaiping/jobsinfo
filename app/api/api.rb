@@ -62,7 +62,7 @@ module Api
 					when 'click'
 						# Click menu
 						@msg[:event_key] = @msg[:event_key].downcase
-						if @config.function.has_key?(@msg[:event_key]..to_sym)
+						if @config.function.has_key?(@msg[:event_key].to_sym)
 							('click_' + @msg[:event_key]).to_sym
 						else
 							# Unknow menu key
@@ -90,26 +90,9 @@ module Api
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.help)
 			end
 
-			def internship_recruit
+			def recruit(id)
 				# TODO add subscription filter
-				type = Type.find_by(keyword: @config.function[:internship_recruit])
-				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
-				if 0< records.count
-					items = []
-					records.each do |record|
-						title = record.company + "招聘" + record.job.name + "【实习】"
-						items << Weixin.item(title, '', record.image.url, record.link)
-					end
-					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
-				else
-					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.no_records)
-				end
-			end
-
-			def campus_recruit
-				# TODO add subscription filter
-				type = Type.find_by(keyword: @config.function[:campus_recruit])
-				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				records = Information.where(type_id: id).order("release_time DESC").limit(6)
 				if 0< records.count
 					items = []
 					records.each do |record|
@@ -119,18 +102,32 @@ module Api
 					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
 				else
 					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.no_records)
-				end
+				end			
+			end
+
+			def internship_recruit
+				type = Type.find_by(keyword: @config.function[:internship_recruit])
+				recruit(type.id)
+			end
+
+			def campus_recruit
+				type = Type.find_by(keyword: @config.function[:campus_recruit])
+				recruit(type.id)
 			end
 
 			def social_recruit
 				# TODO add subscription filter
 				type = Type.find_by(keyword: @config.function[:social_recruit])
-				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				recruit(type.id)
+			end
+
+			def guide(id)
+				# TODO add subscription filter
+				records = Information.where(type_id: id).limit(3)	
 				if 0< records.count
 					items = []
 					records.each do |record|
-						title = record.company + "招聘" + record.job.name
-						items << Weixin.item(title, '', record.image.url, record.link)
+						items << Weixin.item(record.title, '', record.image.url, record.link)
 					end
 					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
 				else
@@ -139,15 +136,19 @@ module Api
 			end
 
 			def audition_guide
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'audition_guide')
+				type = Type.find_by(keyword: @config.function[:audition_guide])
+				guide(type.id)
 			end
 
 			def resume_guide
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'resume_guide')
+				# TODO add subscription filter
+				type = Type.find_by(keyword: @config.function[:resume_guide])
+				guide(type.id)
 			end
 
 			def jobs_subscription
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'jobs_subscription')
+				content = '<a href=\"www.google.com\">' + @config.jobs_subscription + '</a>'
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], content)
 			end
 
 			# Do nothing
