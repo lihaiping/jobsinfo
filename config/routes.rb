@@ -1,6 +1,6 @@
 JobsInfo::Application.routes.draw do
 
-  mount Api::Api => '/'
+  mount Weixin::IO => '/'
   mount Ckeditor::Engine => '/ckeditor'
   devise_for :admins
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

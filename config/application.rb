@@ -24,7 +24,8 @@ module JobsInfo
 
     # For weixin io handler
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+    # config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+    config.autoload_paths += %W(#{config.root}/app/api)
 
     # For Ckeditor
     config.middleware.insert_after ActionDispatch::ParamsParser, ActionDispatch::XmlParamsParser

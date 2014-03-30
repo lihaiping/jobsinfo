@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 # Base on the rack-weixin on https://github.com/wolfg1969/rack-weixin
+
 require 'roxml'
 require 'multi_xml'
 require 'ostruct'
