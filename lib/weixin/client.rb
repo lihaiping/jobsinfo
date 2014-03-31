@@ -53,8 +53,8 @@ module Weixin
       @access_token, @expired_at = self.class.authenticate(@endpoint, @api, @key)
     end   
 
-    def user
-      User.new(@api, @key, get_access_token, @expired_at, @endpoint)
+    def weixin_user
+      WeixinUser.new(@api, @key, get_access_token, @expired_at, @endpoint)
     end 
 
     def menu

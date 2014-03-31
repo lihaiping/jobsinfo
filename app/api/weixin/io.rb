@@ -80,6 +80,13 @@ module Weixin
 
 			def subscribe
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
+				user_info = @client.weixin_user.info(@msg[:from_user])
+				user = User.find_or_create_by(openid: user_info['openid']) do |user|
+					user.nickname = user_info['nickname']
+					user.area = user_info['province'] + user_info['city']
+					user.subscribe = user_info['subscribe'].to_i
+				end
+				user.save
 			end
 
 			def unsubscribe
@@ -191,6 +198,7 @@ module Weixin
 				message = "\nWeixin params xml:\n#{params[:xml]}\n"
 				puts message
 				@logger.info("#{message}\n")
+				@client = Weixin::Client.new(@config.app_id, @config.app_secret)
 				begin
 					@msg = get_msg
 					router = mount_route

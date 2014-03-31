@@ -3,7 +3,7 @@
 
 require 'weixin/api'
 require 'weixin/menu'
-require 'weixin/user'
+require 'weixin/weixin_user'
 require 'weixin/message_custom'
 require 'weixin/client'
 require 'weixin/model'
