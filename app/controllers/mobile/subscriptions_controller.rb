@@ -8,7 +8,7 @@ class Mobile::SubscriptionsController < Mobile::ApplicationController
 		#  For test
 		# @user = User.first
 		# @jobs = @user.jobs
-		
+
 		if STATE == params[:state]
 			if params[:code].present?
 				oauth = Weixin::OAuth.new(@config.app_id, @config.app_secret)
@@ -20,7 +20,7 @@ class Mobile::SubscriptionsController < Mobile::ApplicationController
 				redirect_to mobile_unauthorize_path
 			end
 		else
-			url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@config.app_id}&redirect_uri=#{request.original_url}&response_type=code&scope=snsapi_base&state=#{STATE}#wechat_redirect"
+			url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@config.app_id}&redirect_uri=#{request.original_url}&response_type=code&scope=snsapi_base&state=#{STATE}"
         		redirect_to url
 		end
 	end
