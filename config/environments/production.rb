@@ -95,7 +95,6 @@ JobsInfo::Application.configure do
 
   # Text for jobs subscription
   config.jobs_subscription = "订阅职位用于筛选出您关注职位的招聘资讯.\n"
-
   # Text for unknow message type
   config.unknow = "未知消息类型."
 

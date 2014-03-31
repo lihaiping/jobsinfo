@@ -1,0 +1,19 @@
+<h3>订阅职位</h3>
+<p><%= @config.jobs_subscription %></p>
+<% if 0 < @jobs.count %>
+	<p>目前已订阅<%= @jobs.count %>个职位: </p>
+	<p>
+		<% @jobs.each do |job| %>
+			<%= job.name %>
+		<% end %>
+	</p>
+<% else %>
+	<p>目前尚未订阅任何职位.</p>
+<% end %>
+
+<!--
+<%= form_for @user, url: mobile_subscriptions_path(@user) do |f| %>
+
+        <%= f.submit "确定" %>
+<% end %>
+-->

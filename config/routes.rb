@@ -6,7 +6,10 @@ JobsInfo::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   namespace :mobile, path: 'm' do
-    resources :information, only: [:index, :create]
+    resources :information, only: [:show]
+    get 'unauthorize' => 'subscriptions#unauthorize'
+    get 'subscriptions' => 'subscriptions#setting'
+    post 'subscriptions' => 'subscriptions#set'
   end
   
   # The priority is based upon order of creation: first created -> highest priority.

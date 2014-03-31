@@ -1,7 +1,0 @@
-<xml>
-    <ToUserName><![CDATA[<%= @fromUserName %>]]></ToUserName>
-    <FromUserName><![CDATA[<%= @toUserName %>]]></FromUserName>
-    <CreateTime><%= Time.now.to_i %></CreateTime>
-    <MsgType><![CDATA[<%= @msgType %>]]></MsgType>
-    <%= yield %>
-</xml>
