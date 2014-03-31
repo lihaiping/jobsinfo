@@ -80,7 +80,7 @@ module Weixin
 
 			def subscribe
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
-				user_info = @client.weixin_user.info(@msg[:from_user])
+				user_info = @client.user.info(@msg[:from_user])
 				user = User.find_or_create_by(openid: user_info['openid']) do |user|
 					user.nickname = user_info['nickname']
 					user.area = user_info['province'] + user_info['city']
