@@ -158,7 +158,6 @@ module Weixin
 			end
 
 			def jobs_subscription
-				pry
 				content = @config.jobs_subscription + "<a href='" + mobile_subscriptions_path + "'>点此设置</a>"
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], content)
 			end
