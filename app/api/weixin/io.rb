@@ -86,8 +86,8 @@ module Weixin
 						user.area = user_info['province'] + user_info['city']
 						user.subscribe = 1
 					end
-					user.update_attributes(subscribe: 1) unless user.new_record?
 					user.save
+					user.update_attributes(subscribe: 1) unless user.new_record?
 					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
 				end
 			end
