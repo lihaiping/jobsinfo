@@ -33,9 +33,6 @@ module JobsInfo
     config.assets.precompile += Ckeditor.assets
     config.assets.precompile += %w(ckeditor/*)
 
-    # # For weixin message
-    # config.autoload_paths += %W(#{config.root}/lib)
-
     # Autoload lib
     config.autoload_paths += %W(#{config.root}/lib)
   end
