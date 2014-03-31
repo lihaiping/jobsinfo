@@ -36,7 +36,7 @@ module JobsInfo
     # # For weixin message
     # config.autoload_paths += %W(#{config.root}/lib)
 
-    # Autoload lib/ folder including all subdirectories
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    # Autoload lib
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
