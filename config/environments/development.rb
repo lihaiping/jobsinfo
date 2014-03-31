@@ -27,6 +27,9 @@ JobsInfo::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # For using path helper in grape
+  routes.default_url_options = { host: "http://localhost", port: 3000 }
+
   # Weixin appID
   config.app_id = "wx074ca22d91b63108"
 

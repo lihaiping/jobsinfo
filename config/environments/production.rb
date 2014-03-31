@@ -78,6 +78,9 @@ JobsInfo::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # For using path helper in grape
+  routes.default_url_options = { host: "http://jobsinfo.herokuapp.com" }
+
   # Weixin appID
   config.app_id = "wx074ca22d91b63108"
 
