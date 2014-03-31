@@ -158,7 +158,7 @@ module Weixin
 			end
 
 			def jobs_subscription
-				content = @config.jobs_subscription + '<a href="www.google.com">' + '点此设置'+ '</a>'
+				content = @config.jobs_subscription + '<%= link_to "点此设置", mobile_subscriptions_path %>'
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], content)
 			end
 
