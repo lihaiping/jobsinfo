@@ -1,4 +1,4 @@
-require 'weixin_handler'
+require 'weixin/oauth'
 
 class Mobile::SubscriptionsController < Mobile::ApplicationController
 
@@ -8,7 +8,7 @@ class Mobile::SubscriptionsController < Mobile::ApplicationController
 		#  For test
 		# @user = User.first
 		# @jobs = @user.jobs
-		
+
 		if STATE == params[:state]
 			if params[:code].present?
 				oauth = Weixin::OAuth.new(@config.app_id, @config.app_secret)

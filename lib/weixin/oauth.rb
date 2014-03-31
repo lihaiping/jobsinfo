@@ -1,11 +1,10 @@
 #encoding: utf-8
 require 'rest-client'
+require 'multi_json'
 
 module Weixin
 
 	class OAuth
-
-		attr_accessor :appid, :secret, :endpoint
 
 		def initialize(appid, secret)
 			@appid = appid
@@ -16,8 +15,8 @@ module Weixin
 
 		def exchange_token(code)
 			url = '#{@endpoint}/access_token'
-			reponse = RestClient.get url, { :params => { :appid => @appid, :secret => @secret, :code => code, :grant_type => 'authorization_code' } }
-			json = JSON.parse(reponse)
+			request = RestClient.get url, { :params => { :appid => @appid, :secret => @secret, :code => code, :grant_type => 'authorization_code' } }
+			MultiJson.load(request.body)
 		end
 
 	end
