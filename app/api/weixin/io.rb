@@ -79,18 +79,19 @@ module Weixin
 			end
 
 			def subscribe
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
 				user_info = @client.user.info(@msg[:from_user])
 				user = User.find_or_create_by(openid: user_info['openid']) do |user|
 					user.nickname = user_info['nickname']
 					user.area = user_info['province'] + user_info['city']
-					user.subscribe = user_info['subscribe'].to_i
+					user.subscribe = user_info['subscribe']
 				end
 				user.save
+				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
 			end
 
 			def unsubscribe
-				Weixin.text_msg(@msg[:to_user], @msg[:from_user], 'unsubscribe')
+				user = User.find_by(openid: @msg[:from_user])
+				user.update_attributes(subscribe: 0) unless user.nil?
 			end
 
 			def help
