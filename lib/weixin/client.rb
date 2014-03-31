@@ -54,7 +54,7 @@ module Weixin
     end   
 
     def user
-      User.new(@api, @key, get_access_token, @expired_at, @endpoint)
+      WeixinUser.new(@api, @key, get_access_token, @expired_at, @endpoint)
     end 
 
     def menu
