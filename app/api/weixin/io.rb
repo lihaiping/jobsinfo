@@ -184,7 +184,7 @@ module Weixin
 			before do
 				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
 				@config = JobsInfo::Application.config
-				error!('Forbidden', 401) unless Weixin.valid?(@config.token, params[:timestamp], params[:nonce], params[:signature])
+				# error!('Forbidden', 401) unless Weixin.valid?(@config.token, params[:timestamp], params[:nonce], params[:signature])
 			end
 
 			after do
