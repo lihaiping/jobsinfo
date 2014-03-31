@@ -14,7 +14,7 @@ module Weixin
 		end
 
 		def exchange_token(code)
-			url = '#{@endpoint}/access_token'
+			url = "#{@endpoint}/access_token"
 			request = RestClient.get url, { :params => { :appid => @appid, :secret => @secret, :code => code, :grant_type => 'authorization_code' } }
 			MultiJson.load(request.body)
 		end
