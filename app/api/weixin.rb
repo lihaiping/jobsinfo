@@ -1,1 +1,1 @@
-require 'weixin/io'
+require 'handler/io'
