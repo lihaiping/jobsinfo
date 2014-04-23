@@ -26,16 +26,16 @@ module Handler
           				:click_unsubscribe => 'unsubscribe',
 					:reply_? => 'help',
 					:click_help => 'help',
-					:reply_1 => 'internship_recruit',
-					:click_internship_recruit => 'internship_recruit',
-					:reply_2 => 'campus_recruit',
-					:click_campus_recruit => 'campus_recruit',
-					:reply_3 => 'social_recruit',
-					:click_social_recruit => 'social_recruit',
-					:reply_4 => 'audition_guide',
-					:click_audition_guide => 'audition_guide',
-					:reply_5 => 'resume_guide',
-					:click_resume_guide => 'resume_guide',
+					:reply_1 => 'recruit',
+					:click_internship_recruit => 'recruit',
+					:reply_2 => 'recruit',
+					:click_campus_recruit => 'recruit',
+					:reply_3 => 'recruit',
+					:click_social_recruit => 'recruit',
+					:reply_4 => 'guide',
+					:click_audition_guide => 'guide',
+					:reply_5 => 'guide',
+					:click_resume_guide => 'guide',
 					:reply_6 => 'jobs_subscription',
 					:click_jobs_subscription => 'jobs_subscription',
 					:default => 'default',
@@ -47,6 +47,7 @@ module Handler
 				if 'text' == @msg[:msg_type]
 					# Common text message
 					if @config.function.has_value?(@msg[:content] )
+						@msg[:keyword] = @msg[:content]
 						('reply_' + @msg[:content]).to_sym 
 					else
 						:reply_?
@@ -63,6 +64,7 @@ module Handler
 						# Click menu
 						@msg[:event_key] = @msg[:event_key].downcase
 						if @config.function.has_key?(@msg[:event_key].to_sym)
+							@msg[:keyword] = @config.function[@msg[:event_key].to_sym]
 							('click_' + @msg[:event_key]).to_sym
 						else
 							# Unknow menu key
@@ -101,9 +103,10 @@ module Handler
 				Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.help)
 			end
 
-			def recruit(id)
+			def recruit
 				# TODO add subscription filter
-				records = Information.where(type_id: id).order("release_time DESC").limit(6)
+				type = Type.find_by(keyword: @msg[:keyword])
+				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
 				if 0< records.count
 					items = []
 					records.each do |record|
@@ -116,25 +119,10 @@ module Handler
 				end			
 			end
 
-			def internship_recruit
-				type = Type.find_by(keyword: @config.function[:internship_recruit])
-				recruit(type.id)
-			end
-
-			def campus_recruit
-				type = Type.find_by(keyword: @config.function[:campus_recruit])
-				recruit(type.id)
-			end
-
-			def social_recruit
+			def guide
 				# TODO add subscription filter
-				type = Type.find_by(keyword: @config.function[:social_recruit])
-				recruit(type.id)
-			end
-
-			def guide(id)
-				# TODO add subscription filter
-				records = Information.where(type_id: id).limit(3)	
+				type = Type.find_by(keyword: @msg[:keyword])
+				records = Information.where(type_id: type.id).limit(3)	
 				if 0< records.count
 					items = []
 					records.each do |record|
@@ -144,17 +132,6 @@ module Handler
 				else
 					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.no_records)
 				end
-			end
-
-			def audition_guide
-				type = Type.find_by(keyword: @config.function[:audition_guide])
-				guide(type.id)
-			end
-
-			def resume_guide
-				# TODO add subscription filter
-				type = Type.find_by(keyword: @config.function[:resume_guide])
-				guide(type.id)
 			end
 
 			def jobs_subscription
@@ -184,7 +161,7 @@ module Handler
 			before do
 				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
 				@config = JobsInfo::Application.config
-				error!('Forbidden', 401) unless Weixin.valid?(@config.token, params[:timestamp], params[:nonce], params[:signature])
+				# error!('Forbidden', 401) unless Weixin.valid?(@config.token, params[:timestamp], params[:nonce], params[:signature])
 			end
 
 			after do
