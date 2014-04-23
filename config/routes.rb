@@ -7,6 +7,7 @@ JobsInfo::Application.routes.draw do
 
   namespace :mobile, path: 'm' do
     resources :information, only: [:show]
+    resources :guides, only: [:show]
     get 'unauthorize' => 'subscriptions#unauthorize'
     get 'subscriptions' => 'subscriptions#setting'
     post 'subscriptions' => 'subscriptions#set'
