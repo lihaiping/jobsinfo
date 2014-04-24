@@ -122,7 +122,7 @@ module Handler
 			def guide
 				# TODO add subscription filter
 				type = Type.find_by(keyword: @msg[:keyword])
-				records = Information.where(type_id: type.id).limit(3)	
+				records = Guide.where(type_id: type.id).order("created_at DESC")limit(3)	
 				if 0< records.count
 					items = []
 					records.each do |record|
