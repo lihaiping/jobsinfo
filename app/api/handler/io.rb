@@ -111,7 +111,7 @@ module Handler
 					items = []
 					records.each do |record|
 						title = record.company + "招聘" + record.job.name
-						items << Weixin.item(title, '', record.image.url, record.link)
+						items << Weixin.item(title, '', record.image.url, mobile_information_url(record.id))
 					end
 					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
 				else
