@@ -30,6 +30,8 @@ JobsInfo::Application.configure do
   # For using path helper in grape
   routes.default_url_options = { host: "http://localhost", port: 3000 }
 
+  config.host = "http://localhost:3000"
+
   # Weixin appID
   config.app_id = "wx074ca22d91b63108"
 

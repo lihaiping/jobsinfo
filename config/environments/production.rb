@@ -81,6 +81,8 @@ JobsInfo::Application.configure do
   # For using path helper in grape
   routes.default_url_options = { host: "http://jobsinfo.herokuapp.com" }
 
+  config.host = "http://jobsinfo.herokuapp.com"
+
   # Weixin appID
   config.app_id = "wx074ca22d91b63108"
 

@@ -1,11 +1,11 @@
 <h2><%= @information.job.name %></h2>
-<p>月薪：<%= @information.salary %> | 经验：<%= @information.experience %> | 工作地点：<%= @information.position %></p>
+<p>月薪: <%= @information.salary %> | 经验: <%= @information.experience %> | 工作地点: <%= @information.position %></p>
 <p><%= @information.company %></p>
 <p><%= @information.release_time.strftime("%F") %> 发布</p>
 
-<p>职位描述：</p>
+<p>职位描述: </p>
 <div>
 	<%= sanitize @information.requirement, tags: %w(div dl dt dd ul ol li h1 h2 h3 h4 h5 h6 pre code p blockquote a span strong em table tbody tr td caption th del ins u ul ol li), attributes: %w(style cellpadding cellspacing start) %>
 </div>
-<p>联系方式：<%= @information.contact %></p>
+<p>联系方式: <%= @information.contact %></p>
 <p><%= link_to '阅读原文', @information.link %></p>
