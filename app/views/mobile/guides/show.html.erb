@@ -1,0 +1,5 @@
+<h2><%= @guide.title %></h2>
+<div>
+	<%= sanitize @guide.content, tags: %w(div dl dt dd ul ol li h1 h2 h3 h4 h5 h6 pre code p blockquote a span strong em table tbody tr td caption th del ins u ul ol li), attributes: %w(style cellpadding cellspacing start) %>
+</div>
+<p><%= link_to '阅读原文', @guide.link %></p>
