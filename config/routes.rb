@@ -1,6 +1,6 @@
 JobsInfo::Application.routes.draw do
 
-  mount Handler::IO => '/io'
+  mount Handler::IO => '/'
   mount Ckeditor::Engine => '/ckeditor'
   devise_for :admins
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
