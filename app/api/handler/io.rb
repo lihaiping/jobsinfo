@@ -126,7 +126,7 @@ module Handler
 				if 0< records.count
 					items = []
 					records.each do |record|
-						items << Weixin.item(record.title, '', record.image.url, record.link)
+						items << Weixin.item(record.title, '', record.image.url, mobile_guide_url(record.id))
 					end
 					Weixin.news_msg(@msg[:to_user], @msg[:from_user], items)
 				else
