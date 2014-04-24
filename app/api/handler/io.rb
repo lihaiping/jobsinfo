@@ -150,7 +150,7 @@ module Handler
 
 		end
 
-		namespace :weixin_io do
+		namespace :handler_io do
 
 			desc 'Check the signature.'
 			# params do
