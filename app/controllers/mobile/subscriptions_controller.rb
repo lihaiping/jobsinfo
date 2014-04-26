@@ -5,15 +5,10 @@ class Mobile::SubscriptionsController < Mobile::ApplicationController
 	STATE = 'jobsinfo123'
 
 	def setting
-		# For test
-		# @user = User.first
-		# @jobs = @user.jobs
-
 		if STATE == params[:state]
 			if params[:code].present?
 				oauth = Weixin::OAuth.new(@config.app_id, @config.app_secret)
 				json = oauth.exchange_token(params[:code])
-
 				@user = User.find_by(openid: json["openid"])
 				@jobs = @user.jobs
 			else

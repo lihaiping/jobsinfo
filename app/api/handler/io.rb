@@ -153,11 +153,11 @@ module Handler
 		namespace :handler_io do
 
 			desc 'Check the signature.'
-			# params do
-			# 	requires :timestamp, type: String, desc: "Timestamp."
-			# 	requires :nonce, type: String, desc: "Nonce."
-			# 	requires :signature, type: String, desc: "Signature."
-			# end
+			params do
+				requires :timestamp, type: String, desc: "Timestamp."
+				requires :nonce, type: String, desc: "Nonce."
+				requires :signature, type: String, desc: "Signature."
+			end
 			before do
 				@logger ||= Logger.new("#{Rails.root}/log/weixin_api.log")
 				@config = JobsInfo::Application.config
