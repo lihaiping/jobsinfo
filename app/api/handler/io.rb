@@ -102,9 +102,10 @@ module Handler
 			end
 
 			def recruit
-				# TODO add subscription filter
+				# Add subscription filter
 				type = Type.find_by(keyword: @msg[:keyword])
-				records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				subscriptions = User.find_by(openid: @msg[:from_user]).jobs.pluck(:id)
+				records = Information.where(type_id: type.id, job_id: subscriptions).order("release_time DESC").limit(6)
 				if 0< records.count
 					items = []
 					records.each do |record|
@@ -119,7 +120,6 @@ module Handler
 			end
 
 			def guide
-				# TODO add subscription filter
 				type = Type.find_by(keyword: @msg[:keyword])
 				records = Guide.where(type_id: type.id).order("created_at DESC").limit(3)	
 				if 0< records.count
