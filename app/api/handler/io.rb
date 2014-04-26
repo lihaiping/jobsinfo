@@ -102,10 +102,15 @@ module Handler
 			end
 
 			def recruit
-				# Add subscription filter
 				type = Type.find_by(keyword: @msg[:keyword])
+				records = []
+				# Add subscription filter
 				subscriptions = User.find_by(openid: @msg[:from_user]).jobs.pluck(:id)
-				records = Information.where(type_id: type.id, job_id: subscriptions).order("release_time DESC").limit(6)
+				if 0 < subscriptions
+					records = Information.where(type_id: type.id, job_id: subscriptions).order("release_time DESC").limit(6)
+				else
+					records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
+				end
 				if 0< records.count
 					items = []
 					records.each do |record|
