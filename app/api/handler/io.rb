@@ -83,11 +83,10 @@ module Handler
 			def subscribe
 				user_info = @client.user.info(@msg[:from_user])
 				if 1 == user_info['subscribe']
-					user = User.find_or_initialize_by(openid: @msg[:from_user]) do |user|
-						user.nickname = user_info['nickname']
-						user.area = user_info['province'] + user_info['city']
-						user.subscribe = 1
-					end
+					user = User.find_or_initialize_by(openid: @msg[:from_user])
+					user.nickname = user_info['nickname']
+					user.area = user_info['province'] + user_info['city']
+					user.subscribe = 1
 					user.save
 					Weixin.text_msg(@msg[:to_user], @msg[:from_user], @config.subscribe + @config.help)
 				end
