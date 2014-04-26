@@ -106,7 +106,7 @@ module Handler
 				records = []
 				# Add subscription filter
 				subscriptions = User.find_by(openid: @msg[:from_user]).jobs.pluck(:id)
-				if 0 < subscriptions
+				if 0 < subscriptions.count
 					records = Information.where(type_id: type.id, job_id: subscriptions).order("release_time DESC").limit(6)
 				else
 					records = Information.where(type_id: type.id).order("release_time DESC").limit(6)
