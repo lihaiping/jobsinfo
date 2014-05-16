@@ -222,6 +222,7 @@ DEPENDENCIES
   grape
   jbuilder (~> 1.2)
   jquery-rails
+  mime-types (= 1.25.1)
   mini_magick
   multi_xml
   pg
