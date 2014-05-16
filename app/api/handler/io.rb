@@ -125,6 +125,7 @@ module Handler
 			end
 
 			def guide
+				# TODO add industry filter for users who have jobs subscription
 				type = Type.find_by(keyword: @msg[:keyword])
 				records = Guide.where(type_id: type.id).order("created_at DESC").limit(3)	
 				if 0< records.count
